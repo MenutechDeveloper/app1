@@ -102,6 +102,21 @@ body {
 #splash img {
   width: 100%;
 }
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Siempre 3 columnas */
+  gap: 16px;
+  max-width: 1000px;
+  margin: auto;
+  padding: 16px;
+}
 
+.image-grid a img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  border-radius: 8px;
+}
 
 
