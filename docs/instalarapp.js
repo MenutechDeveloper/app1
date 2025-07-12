@@ -1,12 +1,12 @@
-// Crea una clave única por restaurante usando la URL
-const restaurantKey = 'pwaInstalled_' + location.pathname.replace(/\W+/g, '');
+// Asegúrate de que restaurantId exista
+const restaurantKey = restaurantId ? 'pwaInstalled_' + restaurantId : 'pwaInstalled_global';
 
-// Verifica si ya se instaló esta app específica
+// Elimina el botón si ya se instaló esta app o si estamos en modo standalone
 if (localStorage.getItem(restaurantKey) === 'true' || window.matchMedia('(display-mode: standalone)').matches) {
   document.addEventListener('DOMContentLoaded', () => {
     const installContainer = document.getElementById('installContainer');
     if (installContainer) {
-      installContainer.remove(); // Elimina el <a> del botón
+      installContainer.remove();
     }
   });
 }
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (choiceResult.outcome === 'accepted') {
           console.log('Instalación aceptada');
-          localStorage.setItem(restaurantKey, 'true'); // Guarda solo para este restaurante
+          localStorage.setItem(restaurantKey, 'true');
 
           const installContainer = document.getElementById('installContainer');
           if (installContainer) {
@@ -60,6 +60,7 @@ if ('serviceWorker' in navigator) {
       .catch(err => console.error('Error al registrar el Service Worker', err));
   });
 }
+
 
 
 
