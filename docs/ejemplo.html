@@ -22,14 +22,14 @@
   // Simula una base de datos de restaurantes
   const restaurantes = {
     " /ejemplo.html": {
-      name: "Restaurante Ejemplo",
-      short_name: "Ejemplo",
+      name: "buffalo wings",
+      short_name: "buffalo",
       icon: "./assets/img/wings.png"
     },
-    "/elbufalo.html": {
+    "/alabama.html": {
       name: "El Búfalo Grill",
       short_name: "El Búfalo",
-      icon: "/logos/bufalo-icon.png"
+      icon: "./logos/bufalo-icon.png"
     }
     // agrega más aquí
   };
@@ -37,7 +37,7 @@
   const data = restaurantes[pathname] || {
     name: "Menutech",
     short_name: "Menutech",
-    icon: "/default-icon.png"
+    icon: "./assets/"
   };
 
   const manifest = {
