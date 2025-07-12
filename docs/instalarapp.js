@@ -1,8 +1,8 @@
-// Oculta completamente el botón si la app ya está instalada
+// Si la app ya está instalada, elimina el contenedor del botón antes de que se renderice
 if (window.matchMedia('(display-mode: standalone)').matches) {
-  const installBtn = document.getElementById('installBtn');
-  if (installBtn) {
-    installBtn.parentElement.remove(); // Elimina el contenedor <a>
+  const installContainer = document.getElementById('installContainer');
+  if (installContainer) {
+    installContainer.remove(); // Elimina el <a> que contiene el botón para evitar espacio en la grilla
   }
 }
 
@@ -29,10 +29,10 @@ document.getElementById('installBtn').addEventListener('click', async () => {
     if (choiceResult.outcome === 'accepted') {
       console.log('Instalación aceptada');
 
-      // Elimina el botón del DOM para que la grilla se reacomode
-      const installBtn = document.getElementById('installBtn');
-      if (installBtn) {
-        installBtn.parentElement.remove(); // Elimina el <a> que contiene la imagen
+      // Elimina el contenedor para evitar hueco en la grilla
+      const installContainer = document.getElementById('installContainer');
+      if (installContainer) {
+        installContainer.remove(); // Elimina el <a> completo
       }
     } else {
       console.log('Instalación rechazada');
