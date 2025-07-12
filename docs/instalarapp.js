@@ -1,17 +1,14 @@
-// ✅ Definimos una clave única por restaurante
+// ✅ Clave única por restaurante
 const restaurantKey = typeof window.restaurantId === 'string'
   ? 'pwaInstalled_' + window.restaurantId
   : 'pwaInstalled_global';
 
-// ✅ Si ya está instalada o corriendo como app, eliminamos el botón desde el inicio
-if (
-  localStorage.getItem(restaurantKey) === 'true' ||
-  window.matchMedia('(display-mode: standalone)').matches
-) {
+// ✅ Si ya está instalada (solo esta app), eliminamos el botón
+if (localStorage.getItem(restaurantKey) === 'true') {
   document.addEventListener('DOMContentLoaded', () => {
     const installContainer = document.getElementById('installContainer');
     if (installContainer) {
-      installContainer.remove(); // ✅ Elimina el <a> para que el grid se reacomode
+      installContainer.remove(); // Elimina el <a> para que el grid se reacomode
     }
   });
 }
@@ -23,7 +20,7 @@ window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault(); // Evita el banner automático
   deferredPrompt = e;
 
-  // ✅ Solo muestra el botón si no está instalado este restaurante
+  // ✅ Solo muestra el botón si esta app no está instalada
   if (!localStorage.getItem(restaurantKey)) {
     const installBtn = document.getElementById('installBtn');
     if (installBtn) {
@@ -37,22 +34,19 @@ document.addEventListener('DOMContentLoaded', () => {
   if (installBtn) {
     installBtn.addEventListener('click', async () => {
       if (deferredPrompt) {
-        deferredPrompt.prompt(); // Muestra el prompt de instalación
+        deferredPrompt.prompt();
         const choiceResult = await deferredPrompt.userChoice;
 
         if (choiceResult.outcome === 'accepted') {
-          console.log('Instalación aceptada');
-
-          // ✅ Guardamos marca de instalación por restaurante
+          console.log('✅ Instalación aceptada');
           localStorage.setItem(restaurantKey, 'true');
 
-          // ✅ Eliminamos el botón y el espacio del grid
           const installContainer = document.getElementById('installContainer');
           if (installContainer) {
             installContainer.remove();
           }
         } else {
-          console.log('Instalación rechazada');
+          console.log('❌ Instalación rechazada');
         }
 
         deferredPrompt = null;
@@ -69,6 +63,7 @@ if ('serviceWorker' in navigator) {
       .catch(err => console.error('Error al registrar el Service Worker', err));
   });
 }
+
 
 
 
