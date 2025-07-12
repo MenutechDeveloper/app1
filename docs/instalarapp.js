@@ -1,3 +1,11 @@
+// Oculta completamente el botón si la app ya está instalada
+if (window.matchMedia('(display-mode: standalone)').matches) {
+  const installBtn = document.getElementById('installBtn');
+  if (installBtn) {
+    installBtn.parentElement.remove(); // Elimina el contenedor <a>
+  }
+}
+
 // Guarda el evento que permite mostrar el prompt de instalación
 let deferredPrompt;
 
@@ -5,7 +13,10 @@ let deferredPrompt;
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault(); // Evita que el navegador muestre el banner automático
   deferredPrompt = e; // Guarda el evento para usarlo más tarde
-  document.getElementById('installBtn').style.display = 'block'; // Muestra el botón
+  const installBtn = document.getElementById('installBtn');
+  if (installBtn) {
+    installBtn.style.display = 'block'; // Muestra el botón
+  }
 });
 
 // Cuando el usuario hace clic en "Instalar App"
@@ -17,13 +28,18 @@ document.getElementById('installBtn').addEventListener('click', async () => {
     // Verifica si aceptó o canceló
     if (choiceResult.outcome === 'accepted') {
       console.log('Instalación aceptada');
+
+      // Elimina el botón del DOM para que la grilla se reacomode
+      const installBtn = document.getElementById('installBtn');
+      if (installBtn) {
+        installBtn.parentElement.remove(); // Elimina el <a> que contiene la imagen
+      }
     } else {
       console.log('Instalación rechazada');
     }
 
-    // Limpia el evento y oculta el botón
+    // Limpia el evento
     deferredPrompt = null;
-    document.getElementById('installBtn').style.display = 'none';
   }
 });
 
@@ -35,4 +51,5 @@ if ('serviceWorker' in navigator) {
       .catch(err => console.error('Error al registrar el Service Worker', err));
   });
 }
+
 
